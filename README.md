@@ -52,5 +52,5 @@ This piece of the code takes each newlly created black frame and clones it 75 ti
 This last script will take all the captioned frames (100200 in total), add the audio track and render a new video file saved as: data/film/out.mp4
 
 	ffmpeg -r 25 -f image2 -s 640x480 -start_number 1 -i data/out/full/%01d.png -i data/film/Alloy-Orchestra-CUT.mp3 -acodec copy -vcodec libx264 -crf 25 -pix_fmt yuv420p data/film/out.mp4
-	
+
 The sound used has been previously edited in order to cut out the first minute which is not used during the film.	
