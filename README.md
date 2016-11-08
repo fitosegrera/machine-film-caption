@@ -1,6 +1,6 @@
 # machine-film-caption
 
-##INSTRUCTIONS
+##Istructions
 
 ####Setup the Project
 
