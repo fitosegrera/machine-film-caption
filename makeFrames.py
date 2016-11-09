@@ -34,12 +34,14 @@ for j in range(json_files):
 				caption += replacements[i]
 				caption = caption.split(" .")
 				caption = caption[0] + caption[1]
-
+		
 		#Remove starting phrases given by captionbot.ai
 		for i in startingPhrases:
 			if caption.startswith(i):
 				parsed = caption.split(i)
-				print parsed[1]
+				if "." in parsed[1]:
+					parsed = parsed[1].split(".")
+					print parsed[0]
 
 	#Generate frame
 	imgX = 640
@@ -50,7 +52,7 @@ for j in range(json_files):
 
 	img = Image.new('RGB', (imgX, imgY))
 	d = ImageDraw.Draw(img)
-	lines = textwrap.wrap(parsed[1], width=35)
+	lines = textwrap.wrap(parsed[0], width=35)
 	y_text = imgY - (imgY/5)
 
 	for line in lines:

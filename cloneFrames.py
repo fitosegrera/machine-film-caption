@@ -18,5 +18,6 @@ for frame in range(frame_files):
 	for i in range(index + 1, (stepInFrames*(frame+1))+1):
 		os.system("cp data/out/" + str(frame+1) + ".png data/out/full/" + str(i) + ".png")
 		index += 1
+	print frame, "cloned!"
 
 print "FINISHED!"
