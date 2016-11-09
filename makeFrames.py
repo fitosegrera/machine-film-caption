@@ -26,7 +26,6 @@ for j in range(json_files):
 	with open("data/frames/" + str(j+1) + ".json", 'r') as json_data:
 		data = json.load(json_data)
 		caption = data['data']['caption']
-		
 		#remove and replace any emoji contained in the caption string with it's correspondent word     
 		for i in range(len(unicodes)):
 			if unicodes[i].encode('utf-8') in caption.encode('utf-8'):
@@ -35,13 +34,31 @@ for j in range(json_files):
 				caption = caption.split(" .")
 				caption = caption[0] + caption[1]
 		
+		startSplit_result = ""
+
+		#Check for this particular (UNIQUE) caption.ai phrase and add a "DOT"
+		if caption == "I think this may be inappropriate content so I won't show it":
+			caption = "inappropriate content!"
+			caption += "."
+			startSplit_result = caption
+
 		#Remove starting phrases given by captionbot.ai
 		for i in startingPhrases:
 			if caption.startswith(i):
 				parsed = caption.split(i)
-				if "." in parsed[1]:
-					parsed = parsed[1].split(".")
-					print parsed[0]
+				startSplit_result = parsed[1]
+
+		#Check for any extra dot chars in the phrase
+		#The captions with emotions had their "dots" removed
+		#but the rest still have "dots", the following if statements
+		#removes these.
+		adjustmentSplit = ""
+		if "." in startSplit_result:
+			parsed = startSplit_result.split(".")
+			adjustmentSplit = parsed[0]
+		else:
+		# 	parsed = parsed[0]
+			adjustmentSplit = startSplit_result
 
 	#Generate frame
 	imgX = 640
@@ -52,7 +69,7 @@ for j in range(json_files):
 
 	img = Image.new('RGB', (imgX, imgY))
 	d = ImageDraw.Draw(img)
-	lines = textwrap.wrap(parsed[0], width=35)
+	lines = textwrap.wrap(adjustmentSplit, width=35)
 	y_text = imgY - (imgY/5)
 
 	for line in lines:
@@ -60,4 +77,5 @@ for j in range(json_files):
 	    d.text(((imgX - width) / 2, y_text), line, font=font, fill=(220, 220, 220)) #fill=(242, 239, 96)
 	    y_text += height
 
+	print j+1, " | ", adjustmentSplit
 	img.save("data/out/" + str(j+1) + ".png")
